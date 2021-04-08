@@ -162,14 +162,14 @@ class _QuestionListState extends State<QuestionList> {
           final item = items[index - 1];
 
           return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
             child: Column(
               children: [
                 Container(
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.all(Radius.circular(0)),
-                      boxShadow: [
+                      /*boxShadow: [
                         BoxShadow(
                           color: Colors.black.withAlpha(10),
                           blurRadius:
@@ -181,12 +181,13 @@ class _QuestionListState extends State<QuestionList> {
                             0.0, // vertical, move down 10
                           ),
                         )
-                      ]),
+                      ]*/),
                   child: ListTile(
                       onTap: () {
                         setState(() {
                           editState = -1;
                           widget.changeMode(kModeCarousel, index);
+                          currentIndexPage = index.toDouble();
                         });
                       },
                       onLongPress: () {
@@ -209,8 +210,7 @@ class _QuestionListState extends State<QuestionList> {
                                       textColor: Colors.red,
                                       onPressed: () {
                                         Navigator.pop(context);
-                                        widget.store.deleteQuestion(item.id,
-                                            () {
+                                        widget.store.deleteQuestion(item.id, () {
                                           widget.store.loadQuestions(
                                               subjectId: widget.subject.id);
                                         });
@@ -236,8 +236,7 @@ class _QuestionListState extends State<QuestionList> {
                       },
                       //contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 4),
                       title: Container(
-                        child: Text(
-                          item.text,
+                        child: Text(capitalize(item.text),
                           style: TextStyle(
                               color: kTitleColor,
                               fontSize: 18,
@@ -431,8 +430,7 @@ class _QuestionListState extends State<QuestionList> {
                     ),
                     child: Column(
                       children: <Widget>[
-                        Text(
-                          items[i - 1].text,
+                        Text(capitalize(items[i - 1].text),
                           style: TextStyle(
                               fontSize: 18,
                               fontFamily: "Quicksand",
@@ -462,8 +460,7 @@ class _QuestionListState extends State<QuestionList> {
                           visible: textvisible,
                           child: Padding(
                             padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
-                            child: Text(
-                              items[i - 1].answer,
+                            child: Text(capitalize(items[i - 1].answer),
                               style: TextStyle(
                                   fontSize: 18,
                                   fontFamily: "Quicksand",
@@ -557,6 +554,8 @@ class _QuestionListState extends State<QuestionList> {
           widget.store.bookmarkQuestion(item.id, item.bookmark);
         });
       },
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
     );
   }
 

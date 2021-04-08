@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:keyboard_avoider/keyboard_avoider.dart';
 
 import '../constants.dart';
@@ -121,6 +122,7 @@ class _EditBookScreenState extends State<EditBookScreen> {
                     ),
                     autocorrect: true,
                     controller: textCtrl,
+                    textCapitalization: TextCapitalization.sentences,
                     decoration: InputDecoration(
                         hintText: 'Title of the book:',
                         filled: true,
@@ -156,14 +158,19 @@ class _EditBookScreenState extends State<EditBookScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                PrimaryButton('ADD BOOK', () {
-                  var id = widget.data == null ? null : widget.data.id;
-                  Book book = Book();
-                  book.id = id;
-                  book.title = name;
-                  book.courseId = widget.course.id;
-                  widget.store.saveBook(book);
-                  Navigator.pop(context);
+                PrimaryButton('SAVE BOOK', () {
+                  if(name==null){
+                    Fluttertoast.showToast(msg: "Enter a book name");
+                  }else {
+                    var id = widget.data == null ? null : widget.data.id;
+                    Book book = Book();
+                    book.id = id;
+                    book.title = name;
+                    book.courseId = widget.course.id;
+                    widget.store.saveBook(book);
+                    Navigator.pop(context);
+                  }
+
                 }),
               ],
             ),

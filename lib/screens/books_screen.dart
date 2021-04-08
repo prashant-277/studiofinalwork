@@ -14,6 +14,7 @@ import 'edit_book_screen.dart';
 class BooksScreen extends StatefulWidget {
   static String id = 'courses_screen';
   final CoursesStore store;
+
   const BooksScreen(this.store);
 
   @override
@@ -23,8 +24,6 @@ class BooksScreen extends StatefulWidget {
 class _BooksScreenState extends State<BooksScreen>
     with SingleTickerProviderStateMixin {
 
-  int _currentIndex = 0;
-
   @override
   void initState() {
     widget.store.loadBooks(widget.store.course.id);
@@ -33,7 +32,6 @@ class _BooksScreenState extends State<BooksScreen>
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         backgroundColor: kBackground,
         appBar: AppBar(
@@ -45,10 +43,10 @@ class _BooksScreenState extends State<BooksScreen>
             child: Text(
               'My books',
               style: TextStyle(
-                  color: kTitleColor,
-                  fontSize: 23,
-                  fontFamily: "Quicksand",
-                  fontWeight: FontWeight.w200,
+                color: kTitleColor,
+                fontSize: 23,
+                fontFamily: "Quicksand",
+                fontWeight: FontWeight.w200,
               ),
             ),
           ),
@@ -57,13 +55,12 @@ class _BooksScreenState extends State<BooksScreen>
             child: Padding(
               padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
               child: Center(
-                child:
-                Text(widget.store.course.name,
+                child: Text(
+                  widget.store.course.name,
                   style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: kTitleColor
-                  ),
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: kTitleColor),
                 ),
               ),
             ),
@@ -72,13 +69,15 @@ class _BooksScreenState extends State<BooksScreen>
         floatingActionButton: FloatingActionButton(
           child: const Icon(
             Icons.add,
-            color: Colors.white,
+            color: Colors.black,
           ),
           backgroundColor: kPrimaryColor,
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(
-                builder: (context) => EditBookScreen(widget.store, widget.store.course, null)
-            ));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => EditBookScreen(
+                        widget.store, widget.store.course, null)));
           },
         ),
         body: SafeArea(
@@ -86,8 +85,7 @@ class _BooksScreenState extends State<BooksScreen>
             padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
             child: BookItemsView(widget.store, widget.store.course),
           ),
-        )
-    );
+        ));
   }
 }
 
@@ -99,15 +97,14 @@ class BookItemsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Observer(builder: (_) {
-    return ModalProgressHUD(
-      color: kLightGrey,
-      child: resultWidget(context, store.books),
-      inAsyncCall: store.isBooksLoading,
-    );
-  });
+        return ModalProgressHUD(
+          color: kLightGrey,
+          child: resultWidget(context, store.books),
+          inAsyncCall: store.isBooksLoading,
+        );
+      });
 
   resultWidget(BuildContext context, List<Book> items) {
-
     if (!store.isBooksLoading && items.length == 0) {
       return Column(
         children: <Widget>[
@@ -144,58 +141,62 @@ class BookItemsView extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
             child: Container(
               decoration: BoxDecoration(
-                  color: Colors.white,
-                  // borderRadius: BorderRadius.all(Radius.circular(10)),
-                  // boxShadow: [
-                  //   BoxShadow(
-                  //     color: Colors.black.withAlpha(10),
-                  //     blurRadius: 20.0, // has the effect of softening the shadow
-                  //     spreadRadius: 10.0, // has the effect of extending the shadow
-                  //     offset: Offset(
-                  //       0.0, // horizontal, move right 10
-                  //       0.0, // vertical, move down 10
-                  //     ),
-                  //   )
-                  // ]
+                color: Colors.white,
+                // borderRadius: BorderRadius.all(Radius.circular(10)),
+                // boxShadow: [
+                //   BoxShadow(
+                //     color: Colors.black.withAlpha(10),
+                //     blurRadius: 20.0, // has the effect of softening the shadow
+                //     spreadRadius: 10.0, // has the effect of extending the shadow
+                //     offset: Offset(
+                //       0.0, // horizontal, move right 10
+                //       0.0, // vertical, move down 10
+                //     ),
+                //   )
+                // ]
               ),
               padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
               margin: const EdgeInsets.symmetric(vertical: 1, horizontal: 0),
               child: ListTile(
-                contentPadding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
                 trailing: PopupMenuButton<int>(
                   offset: Offset(15, 10),
                   elevation: 20,
                   onSelected: (int) {
-                    if(int == kActionEdit) {
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => EditBookScreen(store, course, item)
-                      )
-                      );
+                    if (int == kActionEdit) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  EditBookScreen(store, course, item)));
                     }
-                    if(int == kActionDelete) {
+                    if (int == kActionDelete) {
                       showDialog(
                           context: context,
                           builder: (_) => AlertDialog(
-                            title: Text(item.title),
-                            content: Text('Do you really want to delete this book?'),
-                            actions: <Widget>[
-                              FlatButton(
-                                onPressed: () async {
-                                  Navigator.maybePop(context);
-                                  await store.deleteBook(item.id);
-                                  store.loadBooks(course.id);
-                                },
-                                child: Text('Delete'),
-                                textColor: Colors.red,
-                              ),
-                              FlatButton(
-                                child: Text('No'),
-                                onPressed: () async {
-                                  Navigator.maybePop(context);
-                                },
-                              )
-                            ],
-                          ));
+                                title: Text(item.title),
+                                content: Text(
+                                    'Do you really want to delete this book?'),
+                                actions: <Widget>[
+                                  FlatButton(
+                                    onPressed: () async {
+                                      await store.deleteBook(item.id);
+                                      store.loadBooks(course.id);
+                                      Navigator.maybePop(context);
+
+                                    },
+                                    child: Text('Delete'),
+                                    textColor: Colors.red,
+                                  ),
+                                  FlatButton(
+                                    child: Text('No'),
+                                    onPressed: () async {
+                                      Navigator.maybePop(context);
+                                    },
+                                  )
+                                ],
+                              ));
                     }
                   },
                   itemBuilder: (context) => [
@@ -222,13 +223,12 @@ class BookItemsView extends StatelessWidget {
                 ),
                 title: Container(
                   child: Text(
-                    item.title,
+                    capitalize(item.title),
                     style: TextStyle(
-                      fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w600,
                         fontSize: 18,
                         fontFamily: "Quicksand",
-                        color: HexColor("#5D646B")
-                    ),
+                        color: HexColor("#5D646B")),
                   ),
                 ),
               ),

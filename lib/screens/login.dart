@@ -187,6 +187,9 @@ class _LoginScreenState extends State<LoginScreen>
                       onChanged: (value) {
                         setState(() => email = value);
                       },
+                      inputFormatters: [
+                        FilteringTextInputFormatter.deny(new RegExp(r" "))
+                      ],
                       maxLines: 1,
                       decoration: InputDecoration(
                         contentPadding:

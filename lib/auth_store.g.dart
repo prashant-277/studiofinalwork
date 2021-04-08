@@ -37,8 +37,10 @@ mixin _$AuthStore on _AuthStore, Store {
     }
   }
 
+
   @override
-  void loggedOut() {
+  Future<void> loggedOut() async {
+
     final _$actionInfo =
         _$_AuthStoreActionController.startAction(name: '_AuthStore.loggedOut');
 

@@ -67,68 +67,7 @@ class _EditSubjectScreenState extends State<EditSubjectScreen> {
             MaterialPageRoute(
                 builder: (context) =>
                     EditBookScreen(widget.store, widget.store.course, null)));
-        /*showDialog<int>(
 
-            context: context,
-            builder: (BuildContext context) {
-              return SimpleDialog(
-
-                title: const Text('New book'),
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'Enter title:',
-                        ),
-                        TextField(
-                          autocorrect: true,
-                          autofocus: true,
-                          onChanged: (t) {
-                            setState(() {
-                              newBookTitle = t;
-                            });
-                          },
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Wrap(
-                          alignment: WrapAlignment.spaceEvenly,
-                          spacing: 10,
-                          children: <Widget>[
-                            RaisedButton(
-                              child: Text('Cancel'),
-                              color: Colors.white,
-                              onPressed: () {
-                                Navigator.maybePop(context);
-                              },
-                            ),
-                            RaisedButton(
-                              elevation: 10,
-                              child: Text('Save'),
-                              color: kPrimaryColor,
-                              onPressed: () async {
-                                if (newBookTitle.length > 0) {
-                                  Navigator.maybePop(context);
-                                  Book book = Book();
-                                  book.title = newBookTitle;
-                                  book.courseId = widget.course.id;
-                                  await widget.store.saveBook(book);
-                                }
-                              },
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              );
-            });*/
       },
       padding: const EdgeInsets.all(4),
     );
@@ -157,6 +96,7 @@ class _EditSubjectScreenState extends State<EditSubjectScreen> {
                   if (v) {
                     bookId = e.id;
                     bookTitle = e.title;
+
                   } else {
                     bookId = bookTitle = null;
                   }
@@ -219,6 +159,7 @@ class _EditSubjectScreenState extends State<EditSubjectScreen> {
                           ),
                           autocorrect: true,
                           controller: textCtrl,
+                          textCapitalization: TextCapitalization.sentences,
                           decoration: InputDecoration(
                             hintText: 'Name of the subject:',
                             filled: true,
@@ -364,7 +305,7 @@ class _EditSubjectScreenState extends State<EditSubjectScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    PrimaryButton('ADD SUBJECT', () {
+                    PrimaryButton('SAVE SUBJECT', () {
                       if(name==null){
                         Fluttertoast.showToast(msg: "Enter a name for this subject");
                       }else{

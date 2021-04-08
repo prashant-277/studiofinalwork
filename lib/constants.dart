@@ -93,3 +93,4 @@ const courseIcons = [
   "noun_Test Tube_1951523.png",
   "noun_Tie_1951559.png"
 ];
+

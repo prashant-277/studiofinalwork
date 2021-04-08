@@ -37,7 +37,7 @@ class _TestHomeScreenState extends State<TestHomeScreen> {
   @deprecated
   int testLength = 0;
 
-  bool isToggled = false;
+  bool isToggled = true;
 
   @override
   void initState() {
@@ -45,6 +45,7 @@ class _TestHomeScreenState extends State<TestHomeScreen> {
     selectedSubjects = [];
     widget.store.loadSubjects(widget.store.course.id);
     widget.store.loadQuestions(courseId: widget.store.course.id);
+
     super.initState();
   }
 
@@ -55,31 +56,31 @@ class _TestHomeScreenState extends State<TestHomeScreen> {
         return Scaffold(
           backgroundColor: kBackgroundColor,
           key: _scaffoldKey,
-            appBar: AppBar(
-              iconTheme: IconThemeData(color: kTitleColor),
-              centerTitle: true,
-              elevation: 0,
-              title: Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: CourseTitle(widget.store, widget.store.course, kTitleColor),
-              ),
-              bottom: PreferredSize(
-                preferredSize: const Size.fromHeight(34.0),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
-                  child: Center(
-                    child:
-                    Text("Prepare a new test",
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          color: kTitleColor
-                      ),
-                    ),
+          appBar: AppBar(
+            iconTheme: IconThemeData(color: kTitleColor),
+            centerTitle: true,
+            elevation: 0,
+            title: Padding(
+              padding: const EdgeInsets.all(18.0),
+              child:
+                  CourseTitle(widget.store, widget.store.course, kTitleColor),
+            ),
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(34.0),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+                child: Center(
+                  child: Text(
+                    "Prepare a new test",
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: kTitleColor),
                   ),
                 ),
               ),
             ),
+          ),
           body: SafeArea(
               child: SingleChildScrollView(
             child: Padding(
@@ -87,7 +88,6 @@ class _TestHomeScreenState extends State<TestHomeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     child: Row(
@@ -153,7 +153,7 @@ class _TestHomeScreenState extends State<TestHomeScreen> {
                       spacing: 12,
                       children: withQuestions.map((element) {
                         return Container(
-                          height: MediaQuery.of(context).size.height/11.0,
+                          height: MediaQuery.of(context).size.height / 11.0,
                           decoration: new BoxDecoration(
                               border: new Border(
                                   bottom: new BorderSide(
@@ -174,19 +174,28 @@ class _TestHomeScreenState extends State<TestHomeScreen> {
                                 _questionsInSubject(element).toString() +
                                     " Questions",
                                 style: TextStyle(
-                                    color: selectedSubjects.contains(element)
-                                        ? Colors.grey
-                                        : Color(0xffb3b3b4),
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 14,
-                                    fontFamily: "Nunito",
+                                  color: selectedSubjects.contains(element)
+                                      ? Colors.grey
+                                      : Color(0xffb3b3b4),
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                  fontFamily: "Nunito",
                                 )),
                             trailing: Switch(
-                              value: isToggled == true
+                              /*value: isToggled == true
                                   ? selectedSubjects.contains(element)
-                                  : selectedSubjects.contains(element),
+                                  : selectedSubjects.contains(element),*/
+                              value: selectedSubjects.contains(element),
+
                               onChanged: (value) {
-                                setState(() {
+                                if (value) {
+                                  selectedSubjects.add(element);
+                                  _hasQuestions(element);
+                                } else {
+                                  selectedSubjects.remove(element);
+                                }
+
+                                /*setState(() {
                                   isToggled = value;
                                   print(isToggled);
 
@@ -196,7 +205,7 @@ class _TestHomeScreenState extends State<TestHomeScreen> {
                                   } else {
                                     selectedSubjects.remove(element);
                                   }
-                                });
+                                });*/
                                 updateCount();
                               },
                               activeTrackColor: Color(0xffE1E1E1),
@@ -209,93 +218,7 @@ class _TestHomeScreenState extends State<TestHomeScreen> {
                         );
                       }).toList(),
                     ),
-
-                    /*Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              child: Wrap(
-                                spacing: 12,
-                                children: withQuestions.map((element) {
-                                  return InputChip(
-                                    avatar: CircleAvatar(
-                                        backgroundColor:
-                                            Colors.blueGrey.shade400,
-                                        radius: 20,
-                                        child: Text(
-                                          _questionsInSubject(element)
-                                              .toString(),
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.white),
-                                        )),
-                                    isEnabled: _hasQuestions(element),
-                                    label: Text(element.name),
-                                    backgroundColor: Colors.blueGrey.shade100,
-                                    selectedColor: Colors.blue.shade100,
-                                    selected:
-                                        selectedSubjects.contains(element),
-                                    onSelected: (s) {
-                                      setState(() {
-                                        if (s) {
-                                          selectedSubjects.add(element);
-                                          //countQuestionsBySubjects();
-                                        } else {
-                                          selectedSubjects.remove(element);
-                                          //countQuestionsBySubjects();
-                                        }
-                                      });
-                                      updateCount();
-                                    },
-                                    showCheckmark: false,
-                                  );
-                                }).toList(),
-                              ),
-                            ),
-                            selectedCountText(),
-                            ButtonBar(
-                              children: <Widget>[
-                                FlatButton(
-                                  child: Text('SELECT ALL'),
-                                  onPressed: () {
-                                    setState(() {
-                                      selectedSubjects = withQuestions.toList();
-                                      updateCount();
-                                    });
-                                  },
-                                ),
-                                FlatButton(
-                                  child: Text('DESELECT ALL'),
-                                  onPressed: () {
-                                    setState(() {
-                                      selectedSubjects = List();
-                                      updateCount();
-                                    });
-                                  },
-                                ),
-                              ],
-                            ),*/
                   ),
-
-                  /*ShadowContainer(
-                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 0, vertical: 0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          Text(
-                            'Test length: $selectedQuestionsCount questions',
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                color: kDarkBlue),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),*/
-                  //_questionsSlider()
                 ],
               ),
             ),
@@ -310,7 +233,6 @@ class _TestHomeScreenState extends State<TestHomeScreen> {
                 children: [
                   FlatButton(
                     padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
-
                     color: selectedQuestionsCount < 3
                         ? Colors.blueGrey.shade100
                         : kPrimaryColor,
@@ -451,12 +373,12 @@ class _TestHomeScreenState extends State<TestHomeScreen> {
   Widget levelChip(int level) {
     return Transform(
       //transform: new Matrix4.identity()..scale(0.6),
-      transform: new Matrix4.rotationX(7.0)..scale(0.8),
+      transform: new Matrix4.rotationX(6.0)..scale(0.6),
       alignment: Alignment.center,
 
       child: InputChip(
         padding: EdgeInsets.symmetric(vertical: 0, horizontal: 00),
-        labelPadding: EdgeInsets.symmetric(horizontal: 26, vertical: 5),
+        labelPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
         label: Text(
           "$level",
           style: TextStyle(
@@ -465,7 +387,6 @@ class _TestHomeScreenState extends State<TestHomeScreen> {
                   : Colors.black,
               fontSize: 18),
         ),
-        backgroundColor: Color(0xffE1E1E1),
         selectedColor: Color(0xff2b9afb),
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         selected: selectedLevels.contains(level),

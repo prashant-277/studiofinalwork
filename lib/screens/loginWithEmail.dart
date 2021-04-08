@@ -50,6 +50,7 @@ class _LoginWithEmailState extends State<LoginWithEmail> {
                     setState(() => email = value);
                   },
                   keyboardType: TextInputType.emailAddress,
+
                   decoration: InputDecoration(
                       icon: Icon(
                         Icons.person,

@@ -25,11 +25,11 @@ class CoursesScreen extends StatefulWidget {
 
 class _CoursesScreenState extends State<CoursesScreen>
     with SingleTickerProviderStateMixin {
-  int _currentIndex = 0;
 
   @override
   void initState() {
     widget.store.loadCourses();
+    print("ddddd");
     super.initState();
   }
 
@@ -73,7 +73,7 @@ class _CoursesScreenState extends State<CoursesScreen>
             : FloatingActionButton(
                 child: const Icon(
                   Icons.add,
-                  color: Colors.white,
+                  color: Colors.black,
                 ),
                 backgroundColor: kPrimaryColor,
                 onPressed: () {
@@ -264,8 +264,7 @@ class CourseItemsView extends StatelessWidget {
                           height: 20,
                         ),
                         title: Container(
-                          child: Text(
-                            item.name,
+                          child: Text(capitalize(item.name),
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontFamily: "Quicksand",

@@ -12,6 +12,7 @@ import '../notes/notes_screen.dart';
 import '../questions/edit_question_screen.dart';
 import '../questions/questions_screen.dart';
 import 'edit_subject_screen.dart';
+import 'package:intl/intl.dart';
 
 class SubjectScreen extends StatefulWidget {
   SubjectScreen(this.store, this.course);
@@ -49,11 +50,11 @@ class _SubjectScreenState extends State<SubjectScreen>
           backgroundColor: kBackgroundColor,
           appBar: AppBar(
             iconTheme: IconThemeData(color: kTitleColor),
-            centerTitle: true,
+            centerTitle: true,elevation: 3,
             bottom: TabBar(
               controller: _tabController,
-              labelColor: kDarkBlue,
-              indicatorColor: kDarkBlue,
+              labelColor: HexColor("#5D646B"),
+              indicatorColor: HexColor("#5D646B"),
               indicatorSize: TabBarIndicatorSize.label,
               isScrollable: false,
               onTap: (index) {
@@ -63,7 +64,7 @@ class _SubjectScreenState extends State<SubjectScreen>
               },
               tabs: <Widget>[
                 Tab(
-                  child: Text('Keynotes',
+                  child: Text("  " + 'Keynotes' + "  ",
                       style: TextStyle(
                           fontSize: 18,
                           fontFamily: "Quicksand",
@@ -77,7 +78,7 @@ class _SubjectScreenState extends State<SubjectScreen>
                   ),*/
                 ),
                 Tab(
-                  child: Text('Questions',
+                  child: Text("  " + 'Questions' + "  ",
                       style: TextStyle(
                           fontSize: 18,
                           fontFamily: "Quicksand",
@@ -178,15 +179,12 @@ class _SubjectScreenState extends State<SubjectScreen>
                       children: [
                         Icon(
                           LineAwesomeIcons.bars,
-                          color: Colors.black.withAlpha(
-                              currentMode == kModeList ? 255 : 80),
+                          color: HexColor("#5D646B")
                         ),
                         SizedBox(width: 5,),
                         new Text('List View',style: TextStyle(
                             fontFamily: "Quicksand",
-                            fontWeight: currentMode == kModeList ? FontWeight.w600 : FontWeight.normal,
-                            color: Colors.black.withAlpha(
-                                currentMode == kModeList ? 255 : 80),
+                            color: HexColor("#5D646B")
                         ))
                       ],
                     ),
@@ -197,15 +195,12 @@ class _SubjectScreenState extends State<SubjectScreen>
                       children: [
                         Icon(
                           LineAwesomeIcons.copy,
-                          color: Colors.black.withAlpha(
-                              currentMode == kModeCarousel ? 255 : 80),
+                          color: HexColor("#5D646B")
                         ),
                         SizedBox(width: 5,),
-                        new Text('Slider',style: TextStyle(
+                        new Text('Slide view',style: TextStyle(
                             fontFamily: "Quicksand",
-                          fontWeight: currentMode == kModeCarousel ? FontWeight.w600 : FontWeight.normal,
-                            color: Colors.black.withAlpha(
-                                currentMode == kModeCarousel ? 255 : 80),
+                            color: HexColor("#5D646B")
                         ))
                       ],
                     ),
@@ -327,7 +322,7 @@ class _SubjectScreenState extends State<SubjectScreen>
           ),
           floatingActionButton: FloatingActionButton(
             backgroundColor: kPrimaryColor,
-            child: Icon(Icons.add),
+            child: Icon(Icons.add,color: Colors.black,),
             onPressed: () {
               if (currentTab == kTabNotes) {
                 Navigator.push(

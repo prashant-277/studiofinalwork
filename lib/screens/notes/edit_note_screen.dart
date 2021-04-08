@@ -70,7 +70,7 @@ class _NoteEditState extends State<NoteEdit> {
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.only(top: 0),
-                child: Text('Introduction',
+                child: Text(widget.store.subject.name,
                     style: TextStyle(
                         color: kDarkBlue,
                         fontSize: 18,
@@ -134,6 +134,7 @@ class _NoteEditState extends State<NoteEdit> {
                     autofocus: true,
                     autocorrect: true,
                     controller: textCtrl,
+                    textCapitalization: TextCapitalization.sentences,
                     decoration: InputDecoration(
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.white, width: 0),
@@ -408,7 +409,7 @@ class _NoteEditState extends State<NoteEdit> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               PrimaryButton(
-                'ADD KEYNOTE',
+                'SAVE KEYNOTE',
                 () async {
                   if (text.trim().length == 0) {
                     Scaffold.of(context).showSnackBar(SnackBar(

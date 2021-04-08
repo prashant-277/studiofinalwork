@@ -126,7 +126,7 @@ class _EditCourseScreenState extends State<EditCourseScreen> {
                 autocorrect: true,
                 controller: textCtrl,
                 autofocus: true,
-
+                textCapitalization: TextCapitalization.sentences,
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.all(0),
                     fillColor: kBackgroundColor,
@@ -166,7 +166,7 @@ class _EditCourseScreenState extends State<EditCourseScreen> {
                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 10),
                 child: SizedBox(
                   child: PrimaryButton(
-                    'ADD COURSE',
+                    'SAVE COURSE',
                         () async {
 
                       if(selectedIcon == null) {

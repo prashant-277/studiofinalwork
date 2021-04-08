@@ -26,7 +26,7 @@ class NoteList extends StatefulWidget {
   final Subject subject;
   final int mode;
   final Function changeMode;
-  final int index;
+  int index;
 
   NoteList(this.store, this.course, this.subject, this.mode, this.changeMode,
       this.index);
@@ -39,6 +39,8 @@ class _NoteListState extends State<NoteList> with TickerProviderStateMixin {
   int editState = -1;
   bool bookmarked = false;
   CarouselController carouselController = CarouselController();
+
+  double currentIndexPage = 0;
 
   @override
   void initState() {
@@ -115,32 +117,19 @@ class _NoteListState extends State<NoteList> with TickerProviderStateMixin {
           final item = items[index - 1];
 
           return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
             child: Column(
               children: [
                 Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(0)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withAlpha(10),
-                          blurRadius:
-                              20.0, // has the effect of softening the shadow
-                          spreadRadius:
-                              10.0, // has the effect of extending the shadow
-                          offset: Offset(
-                            0.0, // horizontal, move right 10
-                            0.0, // vertical, move down 10
-                          ),
-                        )
-                      ]),
+
                   child: ListTile(
+                      tileColor: Colors.white,
                       onTap: () {
                         setState(() {
                           editState = -1;
                           //currentIndex = index;
                           widget.changeMode(kModeCarousel, index);
+                          currentIndexPage = index.toDouble();
                         });
                       },
                       onLongPress: () {
@@ -187,7 +176,7 @@ class _NoteListState extends State<NoteList> with TickerProviderStateMixin {
                       //contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 4),
                       title: Container(
                         child: Text(
-                          item.text,
+                          capitalize(item.text),
                           style: TextStyle(
                               color: kTitleColor,
                               fontSize: 18,
@@ -200,7 +189,8 @@ class _NoteListState extends State<NoteList> with TickerProviderStateMixin {
                       ),
                 ),
                 Divider(
-                  height: 1.5,
+                  height: 1.0,
+                  thickness: 0.1,
                 )
               ],
             ),
@@ -215,7 +205,6 @@ class _NoteListState extends State<NoteList> with TickerProviderStateMixin {
 
   Timer timer1;
   Timer timer2;
-  double currentIndexPage = 0;
 
   Widget getCarousel(List<Note> items) {
     var subjIndex = widget.store.subjects.indexOf(widget.subject);
@@ -233,12 +222,10 @@ class _NoteListState extends State<NoteList> with TickerProviderStateMixin {
               height: MediaQuery.of(context).size.height - 300,
               enableInfiniteScroll: false,
               initialPage: widget.index,
-
               aspectRatio: 16 / 9,
               viewportFraction: 0.8,
               enlargeCenterPage: true,
               enlargeStrategy: CenterPageEnlargeStrategy.height,
-
               onPageChanged: (int index, CarouselPageChangedReason reason) {
                 setState(() {
                   currentIndexPage = index.toDouble();
@@ -252,12 +239,14 @@ class _NoteListState extends State<NoteList> with TickerProviderStateMixin {
               return coverSlider([
                 Text(
                   widget.store.subjects[subjIndex].name,
-                  style: TextStyle(fontSize: 28, color: Colors.white),
+                  style: TextStyle(
+                      fontSize: 28,
+                      fontFamily: "Quicksand",
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(
-                  height: 30,
-                ),
+
                 /*Text(
                   widget.subject.bookTitle,
                   style: TextStyle(fontSize: 18, color: Colors.white),
@@ -270,12 +259,14 @@ class _NoteListState extends State<NoteList> with TickerProviderStateMixin {
               return coverSlider([
                 Text(
                   widget.store.subjects[subjIndex].name,
-                  style: TextStyle(fontSize: 28, color: Colors.white),
+                  style: TextStyle(
+                      fontSize: 28,
+                      fontFamily: "Quicksand",
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(
-                  height: 30,
-                ),
+
                 /*Text(
                   widget.subject.bookTitle,
                   style: TextStyle(fontSize: 18, color: Colors.white),
@@ -284,22 +275,77 @@ class _NoteListState extends State<NoteList> with TickerProviderStateMixin {
                 SizedBox(
                   height: 30,
                 ),
+                Text(
+                  "Next subject",
+                  style: TextStyle(
+                      fontSize: 28,
+                      fontFamily: "Quicksand",
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
                 IconButton(
                   icon: Icon(
                     LineAwesomeIcons.chevron_right,
                     color: Colors.white,
                   ),
                   onPressed: () {
-                    print("load ${widget.store.subjects[subjIndex].name}");
+                    /*print("load ${widget.store.subjects[subjIndex].name}");
                     widget.store.setSubject(widget.store.subjects[subjIndex]);
                     widget.store.loadNotes(widget.store.subjects[subjIndex].id);
-                    carouselController.jumpToPage(0);
+                    carouselController.jumpToPage(0);*/
                     //widget.store.loadNotes(widget.store.subjects[subjIndex + 1].id);
+
+                    widget.store
+                        .setSubject(widget.store.subjects[subjIndex + 1]);
+                    widget.store.loadQuestions(
+                        subjectId: widget.store.subjects[subjIndex + 1].id);
+                    carouselController.jumpToPage(1);
                   },
                 )
               ]);
             }
-
+            if (isLast && i == count - 1) {
+              return coverSlider([
+                Text(
+                  "last page",
+                  style: TextStyle(
+                      fontSize: 28,
+                      fontFamily: "Quicksand",
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                Text(
+                  "Back to subject list",
+                  style: TextStyle(
+                      fontSize: 28,
+                      fontFamily: "Quicksand",
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+                IconButton(
+                  icon: Icon(
+                    LineAwesomeIcons.chevron_right,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    /*print("load ${widget.store.subjects[subjIndex].name}");
+                    widget.store.setSubject(widget.store.subjects[subjIndex]);
+                    widget.store.loadQuestions(
+                        subjectId: widget.store.subjects[subjIndex].id);
+                    carouselController.jumpToPage(0);
+                    */
+                    Navigator.pop(context);
+                    //widget.store.loadQuestions(widget.store.subjects[subjIndex + 1].id);
+                  },
+                )
+              ]);
+            }
             return Padding(
               padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
               child: Stack(
@@ -382,6 +428,8 @@ class _NoteListState extends State<NoteList> with TickerProviderStateMixin {
           widget.store.bookmarkNote(item.id, item.bookmark);
         });
       },
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
     );
   }
 

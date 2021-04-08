@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:studio/screens/drawer/WebViewContainer.dart';
 import 'package:studio/screens/drawer/how_to_study.dart';
@@ -27,6 +28,8 @@ class MainDrawer extends StatefulWidget {
 
 class _MainDrawerState extends State<MainDrawer> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   @override
   Widget build(BuildContext context) =>
@@ -192,9 +195,11 @@ class _MainDrawerState extends State<MainDrawer> {
                             fontSize: kDrawerItemSize,
                             fontWeight: FontWeight.w600),
                       ),
-                      onTap: () {
+                      onTap: ()  async {
                         Globals.auth.loggedOut();
                         FirebaseAuth.instance.signOut();
+                        await _googleSignIn.disconnect();
+
 
                       },
                     ),

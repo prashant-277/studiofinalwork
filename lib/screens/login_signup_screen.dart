@@ -1,5 +1,6 @@
+import 'dart:convert';
 import 'dart:io';
-
+import 'package:http/http.dart' as http;
 import 'package:device_info/device_info.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -352,29 +353,6 @@ class _LoginSignupScreenState extends State<LoginSignupScreen>
                       ],
                     ),
                   ),
-
-                  /*Text.rich(
-                        TextSpan(
-                          text: 'Existing user? ',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: "nunito",
-                              fontSize: 15,
-                              fontWeight: FontWeight.w700),
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: 'Log In',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: "nunito",
-                                  fontSize: 15,
-                                  decoration: TextDecoration.underline,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                            // can add more TextSpans here...
-                          ],
-                        ),
-                      )*/
                 ),
               ],
             ),
@@ -385,7 +363,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen>
   }
 
   Future<void> fb_email_login() async {
-    final facebookLogin = new FacebookLogin();
+    /*final facebookLogin = new FacebookLogin();
 
     final facebookLoginResult =
         await facebookLogin.logIn(['email', 'public_profile']);
@@ -401,17 +379,39 @@ class _LoginSignupScreenState extends State<LoginSignupScreen>
 
       case FacebookLoginStatus.loggedIn:
         print("LoggedIn");
-        print("token " + facebookLoginResult.accessToken.token);
+        print("token " + facebookLoginResult.accessToken.toMap().toString());
 
         var firebaseUser = await firebaseAuthWithFacebook(
             token: facebookLoginResult.accessToken);
+    }*/
 
-        print("Facebook email------ /////" + firebaseUser.email.toString());
-        print("Facebook email------ /////" + firebaseUser.photoUrl.toString());
-        print(
-            "Facebook email------ /////" + firebaseUser.phoneNumber.toString());
-        print("Facebook email------ /////" + firebaseUser.providerId);
+
+    var facebookLogin = FacebookLogin();
+    var facebookLoginResult = await facebookLogin.logIn(["email"]);
+
+    final token = facebookLoginResult.accessToken.token;
+    final graphResponse = await http.get(
+        'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${token}');
+    final profile = json.decode(graphResponse.body);
+
+    print("profile----" + profile.toString());
+    print("profile id-----" + profile["id"].toString());
+    print("profile email-----" + profile["email"].toString());
+    print("token-----" + token.toString());
+
+    switch (facebookLoginResult.status) {
+      case FacebookLoginStatus.error:
+        print("Error");
+        break;
+      case FacebookLoginStatus.cancelledByUser:
+        print("CancelledByUser");
+        break;
+
+      case FacebookLoginStatus.loggedIn:
+        print("LoggedIn");
     }
+    var firebaseUser = await firebaseAuthWithFacebook(
+        token: facebookLoginResult.accessToken);
   }
 
   Future<FirebaseUser> firebaseAuthWithFacebook(
@@ -423,9 +423,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen>
     FirebaseUser firebaseUser =
         (await _auth.signInWithCredential(credential)).user;
 
-    print("Facebook UserDetail------ /////  " +
-        firebaseUser.displayName.toString());
-    print("Facebook UserDetail------ /////  " + firebaseUser.uid.toString());
+    print("Facebook UserDetail------ /////  " + firebaseUser.displayName.toString());
 
     return firebaseUser;
   }

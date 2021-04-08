@@ -38,6 +38,7 @@ class _QuestionEditState extends State<QuestionEdit> {
       text = widget.data.text;
       answerCtrl.text = widget.data.answer;
       answer = widget.data.answer;
+      radioItem = widget.data.level;
     }
     super.initState();
   }
@@ -128,6 +129,7 @@ class _QuestionEditState extends State<QuestionEdit> {
                     autofocus: true,
                     autocorrect: true,
                     controller: textCtrl,
+                    textCapitalization: TextCapitalization.sentences,
                     decoration: InputDecoration(
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.white, width: 0),
@@ -201,6 +203,7 @@ class _QuestionEditState extends State<QuestionEdit> {
                     autofocus: true,
                     autocorrect: true,
                     controller: answerCtrl,
+                    textCapitalization: TextCapitalization.sentences,
                     decoration: InputDecoration(
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.white, width: 0),
@@ -346,7 +349,6 @@ class _QuestionEditState extends State<QuestionEdit> {
                         onChanged: (val) {
                           setState(() {
                             radioItem = val;
-                            print(val);
                           });
                         },
                       ),
@@ -370,7 +372,7 @@ class _QuestionEditState extends State<QuestionEdit> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               PrimaryButton(
-                'ADD QUESTION',
+                'SAVE QUESTION',
                 () async {
                   if (text.trim().length == 0) {
                     Scaffold.of(context).showSnackBar(SnackBar(
@@ -387,6 +389,7 @@ class _QuestionEditState extends State<QuestionEdit> {
                   question.subjectId = widget.subject.id;
                   question.text = text.trim();
                   question.answer = answer.trim();
+                  question.level = radioItem;
                   widget.store.saveQuestion(question);
                   Navigator.pop(context);
                 },

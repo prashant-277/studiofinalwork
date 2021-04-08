@@ -71,6 +71,9 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                     child: TextFormField(
                       textAlign: TextAlign.start,
                       controller: _emailCtrl,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.deny(new RegExp(r" "))
+                      ],
                       decoration: InputDecoration(
                         contentPadding:
                             EdgeInsets.fromLTRB(15.0, 10.0, 20.0, 10.0),
@@ -161,6 +164,7 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                     child: TextFormField(
                       textAlign: TextAlign.start,
                       controller: _firstNameCtrl,
+                      textCapitalization: TextCapitalization.sentences,
                       decoration: InputDecoration(
                         contentPadding:
                             EdgeInsets.fromLTRB(15.0, 10.0, 20.0, 10.0),
@@ -201,6 +205,7 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                     child: TextFormField(
                       textAlign: TextAlign.start,
                       controller: _lastNameCtrl,
+                      textCapitalization: TextCapitalization.sentences,
                       decoration: InputDecoration(
                         contentPadding:
                             EdgeInsets.fromLTRB(15.0, 10.0, 20.0, 10.0),
@@ -310,7 +315,7 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                           } else if (_lastNameCtrl.text.isEmpty) {
                             Fluttertoast.showToast(
                                 msg: "Please Enter Last Name.");
-                          } else if (selectedDate == null) {
+                          } else if (_dobController.text.isEmpty) {
                             Fluttertoast.showToast(msg: "Please Enter DOB.");
                           } else {
                             loginWithEmail(true);
