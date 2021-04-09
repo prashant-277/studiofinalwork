@@ -163,6 +163,7 @@ class _EditBookScreenState extends State<EditBookScreen> {
                     Fluttertoast.showToast(msg: "Enter a book name");
                   }else {
                     var id = widget.data == null ? null : widget.data.id;
+                    
                     Book book = Book();
                     book.id = id;
                     book.title = name;

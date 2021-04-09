@@ -183,7 +183,10 @@ class BookItemsView extends StatelessWidget {
                                     onPressed: () async {
                                       await store.deleteBook(item.id);
                                       store.loadBooks(course.id);
+                                      store.deleteSubject(store.subject.bookId, store.subject.bookTitle);
+                                      store.loadSubjects(course.id);
                                       Navigator.maybePop(context);
+
 
                                     },
                                     child: Text('Delete'),
