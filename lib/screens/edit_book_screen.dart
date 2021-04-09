@@ -27,6 +27,8 @@ class _EditBookScreenState extends State<EditBookScreen> {
   String name;
   String title = 'Add new book';
   TextEditingController textCtrl = TextEditingController();
+  String btntext = 'ADD BOOK';
+
 
   @override
   void initState() {
@@ -34,6 +36,7 @@ class _EditBookScreenState extends State<EditBookScreen> {
       textCtrl.text = widget.data.title;
       name = widget.data.title;
       title = 'Edit book';
+      btntext = "SAVE BOOK";
     }
     super.initState();
   }
@@ -158,7 +161,7 @@ class _EditBookScreenState extends State<EditBookScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                PrimaryButton('SAVE BOOK', () {
+                PrimaryButton(btntext.toString(), () {
                   if(name==null){
                     Fluttertoast.showToast(msg: "Enter a book name");
                   }else {

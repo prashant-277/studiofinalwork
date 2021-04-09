@@ -30,6 +30,7 @@ class EditSubjectScreen extends StatefulWidget {
 class _EditSubjectScreenState extends State<EditSubjectScreen> {
   String name;
   String title = 'Add new subject';
+  String btntext = 'ADD SUBJECT';
   String bookId;
   String bookTitle;
   String newBookTitle = '';
@@ -42,6 +43,8 @@ class _EditSubjectScreenState extends State<EditSubjectScreen> {
       textCtrl.text = widget.data.name;
       name = widget.data.name;
       title = 'Edit subject';
+      btntext = 'SAVE SUBJECT';
+
       bookId = widget.data.bookId;
     }
     super.initState();
@@ -305,7 +308,7 @@ class _EditSubjectScreenState extends State<EditSubjectScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    PrimaryButton('SAVE SUBJECT', () {
+                    PrimaryButton(btntext.toString(), () {
                       if(name==null){
                         Fluttertoast.showToast(msg: "Enter a name for this subject");
                       }else{

@@ -38,11 +38,14 @@ class _SubjectsScreenState extends State<SubjectsScreen>
   void initState() {
     widget.store.loadSubjects(widget.store.course.id);
     //widget.store.loadCourse(widget.store.course.id);
+
+
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) => Observer(builder: (_) {
+  Widget build(BuildContext context) =>
+      Observer(builder: (_) {
         return Scaffold(
           //drawer: MainDrawer(widget.store),
           backgroundColor: kBackground,
@@ -61,16 +64,19 @@ class _SubjectsScreenState extends State<SubjectsScreen>
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => EditCourseScreen(
-                                  widget.store, widget.store.course)));
+                              builder: (context) =>
+                                  EditCourseScreen(
+                                      widget.store, widget.store.course)));
                       break;
                     case kActionDelete:
                       showDialog(
                           context: context,
-                          builder: (_) => AlertDialog(
+                          builder: (_) =>
+                              AlertDialog(
                                 title: Text('Confirm'),
                                 content: Text('Do you really want to delete '
-                                    'course ${widget.store.course.name} and all '
+                                    'course ${widget.store.course
+                                    .name} and all '
                                     'its subjects, notes and questions?'),
                                 actions: <Widget>[
                                   FlatButton(
@@ -84,9 +90,9 @@ class _SubjectsScreenState extends State<SubjectsScreen>
                                     textColor: Colors.red,
                                     onPressed: () async {
                                       Navigator.pop(context);
-                                      await widget.store.deleteCourse(widget.store.course.id);
-                                      Navigator.pushReplacementNamed(
-                                          context, CoursesScreen.id);
+                                      await widget.store.deleteCourse(
+                                          widget.store.course.id);
+                                      Navigator.pushReplacementNamed(context, CoursesScreen.id);
                                     },
                                   )
                                 ],
@@ -118,7 +124,8 @@ class _SubjectsScreenState extends State<SubjectsScreen>
                 },
                 offset: Offset(0, 20),
                 elevation: 20,
-                itemBuilder: (context) => [
+                itemBuilder: (context) =>
+                [
                   PopupMenuItem(
                     value: kActionBooks,
                     child: Text(
@@ -172,41 +179,43 @@ class _SubjectsScreenState extends State<SubjectsScreen>
           floatingActionButton: widget.store.subjects.length == 0
               ? SizedBox()
               : SpeedDial(
+              backgroundColor: kPrimaryColor,
+              foregroundColor: Colors.white,
+              child: Icon(Icons.add, color: Colors.black,),
+              children: [
+                SpeedDialChild(
+                  child: Icon(Icons.class_),
                   backgroundColor: kPrimaryColor,
-                  foregroundColor: Colors.white,
-                  child: Icon(Icons.add,color: Colors.black,),
-                  children: [
-                      SpeedDialChild(
-                        child: Icon(Icons.class_),
-                        backgroundColor: kPrimaryColor,
-                        label: 'Add subject',
-                        labelStyle: TextStyle(fontSize: 18.0),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => EditSubjectScreen(
-                                      widget.store,
-                                      widget.store.course,
-                                      null)));
-                        },
-                      ),
-                      SpeedDialChild(
-                        child: Icon(LineAwesomeIcons.book),
-                        backgroundColor: kPrimaryColor,
-                        label: 'Add book',
-                        labelStyle: TextStyle(fontSize: 18.0),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => EditBookScreen(
-                                      widget.store,
-                                      widget.store.course,
-                                      null)));
-                        },
-                      ),
-                    ]),
+                  label: 'Add subject',
+                  labelStyle: TextStyle(fontSize: 18.0),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                EditSubjectScreen(
+                                    widget.store,
+                                    widget.store.course,
+                                    null)));
+                  },
+                ),
+                SpeedDialChild(
+                  child: Icon(LineAwesomeIcons.book),
+                  backgroundColor: kPrimaryColor,
+                  label: 'Add book',
+                  labelStyle: TextStyle(fontSize: 18.0),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                EditBookScreen(
+                                    widget.store,
+                                    widget.store.course,
+                                    null)));
+                  },
+                ),
+              ]),
           body: SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -221,24 +230,30 @@ class _SubjectsScreenState extends State<SubjectsScreen>
       });
 }
 
-class SubjectItemsView extends StatelessWidget {
+class SubjectItemsView extends StatefulWidget {
   const SubjectItemsView(this.store, this.course);
 
   final CoursesStore store;
   final Course course;
 
   @override
+  _SubjectItemsViewState createState() => _SubjectItemsViewState();
+}
+
+class _SubjectItemsViewState extends State<SubjectItemsView> {
+  @override
   // ignore: missing_return
   Widget build(BuildContext context) => Observer(builder: (_) {
         return ModalProgressHUD(
           color: kLightGrey,
-          child: resultWidget(context, store.subjects),
-          inAsyncCall: store.isSubjectsLoading,
+          child: resultWidget(context, widget.store.subjects),
+          inAsyncCall: widget.store.isSubjectsLoading /*|| widget.store.isCourseLoading*/,
         );
       });
 
   resultWidget(BuildContext context, List<Subject> items) {
-    if (!store.isSubjectsLoading && items.length == 0) {
+
+    if (!widget.store.isSubjectsLoading && items.length == 0) {
       return SingleChildScrollView(
         child: Container(
           //height: MediaQuery.of(context).size.height/3.2,
@@ -270,10 +285,13 @@ class SubjectItemsView extends StatelessWidget {
               Column(
                 children: [
                   Container(
-                    width: MediaQuery.of(context).size.width / 2.5,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width / 2.5,
                     child: Text.rich(
                       TextSpan(
-                        text: "${store.course.name}",
+                        text: "${widget.store.course.name}",
                         style: TextStyle(
                             fontSize: 20,
                             fontFamily: "Quicksand",
@@ -317,8 +335,9 @@ class SubjectItemsView extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => EditSubjectScreen(
-                                  store, store.course, null)));
+                              builder: (context) =>
+                                  EditSubjectScreen(
+                                      widget.store, widget.store.course, null)));
                     },
                     padding: EdgeInsets.fromLTRB(30, 12, 30, 12),
                   )
@@ -346,11 +365,13 @@ class SubjectItemsView extends StatelessWidget {
               margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
               child: ListTile(
                 onTap: () {
-                  store.setSubject(item);
+                  widget.store.setSubject(item);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => SubjectScreen(store, course)));
+                          builder: (context) => SubjectScreen(widget.store, widget.course)));
+
+
                 },
                 trailing: Image(
                   image: AssetImage("assets/images/right_arrow.png"),

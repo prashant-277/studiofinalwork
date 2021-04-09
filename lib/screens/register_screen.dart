@@ -316,7 +316,7 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                             Fluttertoast.showToast(
                                 msg: "Please Enter Last Name.");
                           } else if (_dobController.text.isEmpty) {
-                            Fluttertoast.showToast(msg: "Please Enter DOB.");
+                            Fluttertoast.showToast(msg: "Please enter DOB.");
                           } else {
                             loginWithEmail(true);
                           }

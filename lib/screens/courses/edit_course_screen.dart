@@ -22,6 +22,7 @@ class EditCourseScreen extends StatefulWidget {
 class _EditCourseScreenState extends State<EditCourseScreen> {
   String name;
   String title = 'Add course';
+  String btntext = 'ADD COURSE';
   String selectedIcon = '';
   TextEditingController textCtrl = TextEditingController();
 
@@ -82,6 +83,7 @@ class _EditCourseScreenState extends State<EditCourseScreen> {
       name = widget.data.name;
       title = 'Edit course';
       selectedIcon = widget.data.icon;
+      btntext = 'SAVE COURSE';
     }
     super.initState();
   }
@@ -166,7 +168,8 @@ class _EditCourseScreenState extends State<EditCourseScreen> {
                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 10),
                 child: SizedBox(
                   child: PrimaryButton(
-                    'SAVE COURSE',
+
+                    btntext.toString(),
                         () async {
 
                       if(selectedIcon == null) {

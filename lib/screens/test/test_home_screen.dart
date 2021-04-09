@@ -27,7 +27,7 @@ class TestHomeScreen extends StatefulWidget {
 
 class _TestHomeScreenState extends State<TestHomeScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  List<Subject> selectedSubjects;
+  List selectedSubjects;
   List<int> selectedLevels;
   int selectedQuestionsCount = 0;
 
@@ -186,7 +186,6 @@ class _TestHomeScreenState extends State<TestHomeScreen> {
                                   ? selectedSubjects.contains(element)
                                   : selectedSubjects.contains(element),*/
                               value: selectedSubjects.contains(element),
-
                               onChanged: (value) {
                                 if (value) {
                                   selectedSubjects.add(element);
