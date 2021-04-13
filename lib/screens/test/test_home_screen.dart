@@ -74,7 +74,6 @@ class _TestHomeScreenState extends State<TestHomeScreen> {
                     "Prepare a new test",
                     style: TextStyle(
                         fontSize: 18,
-                        fontWeight: FontWeight.w600,
                         color: kTitleColor),
                   ),
                 ),

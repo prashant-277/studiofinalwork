@@ -23,7 +23,6 @@ class BooksScreen extends StatefulWidget {
 
 class _BooksScreenState extends State<BooksScreen>
     with SingleTickerProviderStateMixin {
-
   @override
   void initState() {
     widget.store.loadBooks(widget.store.course.id);
@@ -182,12 +181,11 @@ class BookItemsView extends StatelessWidget {
                                   FlatButton(
                                     onPressed: () async {
                                       await store.deleteBook(item.id);
+
                                       store.loadBooks(course.id);
-                                      store.deleteSubject(store.subject.bookId, store.subject.bookTitle);
                                       store.loadSubjects(course.id);
+
                                       Navigator.maybePop(context);
-
-
                                     },
                                     child: Text('Delete'),
                                     textColor: Colors.red,

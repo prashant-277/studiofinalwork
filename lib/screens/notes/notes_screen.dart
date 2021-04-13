@@ -298,8 +298,7 @@ class _NoteListState extends State<NoteList> with TickerProviderStateMixin {
 
                     widget.store
                         .setSubject(widget.store.subjects[subjIndex + 1]);
-                    widget.store.loadQuestions(
-                        subjectId: widget.store.subjects[subjIndex + 1].id);
+                    widget.store.loadNotes(widget.store.subjects[subjIndex + 1].id);
                     carouselController.jumpToPage(1);
                   },
                 )

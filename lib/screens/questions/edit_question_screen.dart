@@ -65,7 +65,7 @@ class _QuestionEditState extends State<QuestionEdit> {
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.all(0),
-                child: Text('Cartography',
+                child: Text(widget.store.subject.name,
                     style: TextStyle(
                         color: kDarkBlue,
                         fontSize: 18,

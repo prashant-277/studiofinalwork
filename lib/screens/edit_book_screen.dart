@@ -29,7 +29,6 @@ class _EditBookScreenState extends State<EditBookScreen> {
   TextEditingController textCtrl = TextEditingController();
   String btntext = 'ADD BOOK';
 
-
   @override
   void initState() {
     if (widget.data != null) {
@@ -76,13 +75,12 @@ class _EditBookScreenState extends State<EditBookScreen> {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
               child: Center(
-                child:
-                Text(title,
+                child: Text(
+                  title,
                   style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
-                      color: kTitleColor
-                  ),
+                      color: kTitleColor),
                 ),
               ),
             ),
@@ -127,19 +125,18 @@ class _EditBookScreenState extends State<EditBookScreen> {
                     controller: textCtrl,
                     textCapitalization: TextCapitalization.sentences,
                     decoration: InputDecoration(
-                        hintText: 'Title of the book:',
-                        filled: true,
-                        isDense: true,
-                        fillColor: kBackgroundColor,
-                        contentPadding: EdgeInsets.symmetric(horizontal: 2,vertical: 3),
-                        hintStyle: TextStyle(
-                          color: kTitleColor,
-                          fontSize: 14,
-                          fontFamily: "Quicksand",
-                          fontWeight: FontWeight.w500,
-                        ),
-
-
+                      hintText: 'Title of the book:',
+                      filled: true,
+                      isDense: true,
+                      fillColor: kBackgroundColor,
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 2, vertical: 3),
+                      hintStyle: TextStyle(
+                        color: kTitleColor,
+                        fontSize: 14,
+                        fontFamily: "Quicksand",
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                     onChanged: (text) {
                       setState(() {
@@ -148,7 +145,6 @@ class _EditBookScreenState extends State<EditBookScreen> {
                     },
                   ),
                 ),
-
               ],
             ),
           ),
@@ -162,11 +158,12 @@ class _EditBookScreenState extends State<EditBookScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 PrimaryButton(btntext.toString(), () {
-                  if(name==null){
-                    Fluttertoast.showToast(msg: "Enter a book name");
-                  }else {
+                  if (name == null) {
+                    Fluttertoast.showToast(
+                        msg: "Enter a name for this subject");
+                  } else {
                     var id = widget.data == null ? null : widget.data.id;
-                    
+
                     Book book = Book();
                     book.id = id;
                     book.title = name;
@@ -174,7 +171,6 @@ class _EditBookScreenState extends State<EditBookScreen> {
                     widget.store.saveBook(book);
                     Navigator.pop(context);
                   }
-
                 }),
               ],
             ),

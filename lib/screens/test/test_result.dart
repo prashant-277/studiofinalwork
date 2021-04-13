@@ -277,7 +277,7 @@ class _TestResultScreenState extends State<TestResultScreen>
             children: [
               Row(
                 children: [
-                  Image.asset("assets/images/Bitmap.png", height: 18),
+                  Image.asset("assets/images/bitmap.png", height: 18),
                   Padding(
                     padding: const EdgeInsets.only(left: 7.0),
                     child: Text(
@@ -298,7 +298,7 @@ class _TestResultScreenState extends State<TestResultScreen>
         ],
       ),
     ];
-
+//
     /*  widget.service.wrongQuestionsBySubject(subject).forEach((element) {
       content.add(ListTile(
         contentPadding: const EdgeInsets.all(0),
