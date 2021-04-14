@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:io';
+import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info/device_info.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -589,8 +591,17 @@ class _LoginScreenState extends State<LoginScreen>
   Future<void> fb_email_login() async {
     final facebookLogin = new FacebookLogin();
 
-    final facebookLoginResult =
-        await facebookLogin.logIn(['email', 'public_profile']);
+    var facebookLoginResult = await facebookLogin.logIn(["email"]);
+
+    final token = facebookLoginResult.accessToken.token;
+    final graphResponse = await http.get(
+        'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${token}');
+    final profile = json.decode(graphResponse.body);
+
+    print("profile----" + profile.toString());
+    print("profile id-----" + profile["id"].toString());
+    print("profile email-----" + profile["email"].toString());
+    print("token-----" + token.toString());
 
     switch (facebookLoginResult.status) {
       case FacebookLoginStatus.error:

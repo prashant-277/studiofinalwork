@@ -25,11 +25,9 @@ const String kCounterDecrease = 'decrease';
 // The store-class
 abstract class _CoursesStore with Store {
   final CollectionReference _courses = Firestore.instance.collection('courses');
-  final CollectionReference _subjects =
-      Firestore.instance.collection('subjects');
+  final CollectionReference _subjects =Firestore.instance.collection('subjects');
   final CollectionReference _notes = Firestore.instance.collection('notes');
-  final CollectionReference _questions =
-      Firestore.instance.collection('questions');
+  final CollectionReference _questions = Firestore.instance.collection('questions');
   final CollectionReference _books = Firestore.instance.collection('books');
 
   @observable
@@ -465,6 +463,7 @@ abstract class _CoursesStore with Store {
 
   @action
   Future<void> loadSubjects(String courseId) async {
+    print(course.id);
     addLoading(kSubjects);
     _subjects
         .where('courseId', isEqualTo: courseId)
@@ -483,6 +482,7 @@ abstract class _CoursesStore with Store {
         subject.bookId = doc.data['bookId'];
         subjects.add(subject);
       }
+      print(subjects.length);
       stopLoading(kSubjects);
     });
   }

@@ -10,7 +10,6 @@ import 'package:studio/screens/edit_book_screen.dart';
 
 import '../../constants.dart';
 import '../../courses_store.dart';
-import '../../models/book.dart';
 import '../../models/course.dart';
 import '../../models/subject.dart';
 import '../../widgets/buttons.dart';
@@ -46,9 +45,11 @@ class _EditSubjectScreenState extends State<EditSubjectScreen> {
       btntext = 'SAVE SUBJECT';
 
       bookId = widget.data.bookId;
+
     }
     super.initState();
-    widget.store.loadBooks(widget.course.id);
+
+
   }
 
   List<Widget> bookRow() {

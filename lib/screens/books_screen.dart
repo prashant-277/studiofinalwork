@@ -141,18 +141,7 @@ class BookItemsView extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.white,
-                // borderRadius: BorderRadius.all(Radius.circular(10)),
-                // boxShadow: [
-                //   BoxShadow(
-                //     color: Colors.black.withAlpha(10),
-                //     blurRadius: 20.0, // has the effect of softening the shadow
-                //     spreadRadius: 10.0, // has the effect of extending the shadow
-                //     offset: Offset(
-                //       0.0, // horizontal, move right 10
-                //       0.0, // vertical, move down 10
-                //     ),
-                //   )
-                // ]
+
               ),
               padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
               margin: const EdgeInsets.symmetric(vertical: 1, horizontal: 0),
@@ -180,12 +169,11 @@ class BookItemsView extends StatelessWidget {
                                 actions: <Widget>[
                                   FlatButton(
                                     onPressed: () async {
+                                      Navigator.maybePop(context);
                                       await store.deleteBook(item.id);
 
-                                      store.loadBooks(course.id);
+                                      store.loadBooks(item.courseId);
                                       store.loadSubjects(course.id);
-
-                                      Navigator.maybePop(context);
                                     },
                                     child: Text('Delete'),
                                     textColor: Colors.red,

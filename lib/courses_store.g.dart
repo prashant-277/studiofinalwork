@@ -308,7 +308,7 @@ mixin _$CoursesStore on _CoursesStore, Store {
 
   @override
   Future<void> loadSubjects(String courseId) {
-    return _$loadSubjectsAsyncAction.run(() => super.loadSubjects(courseId));
+    return _$loadSubjectsAsyncAction.run(() => super.loadSubjects(course.id));
   }
 
   final _$loadBooksAsyncAction = AsyncAction('_CoursesStore.loadBooks');
